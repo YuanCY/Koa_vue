@@ -9,14 +9,33 @@ const models = initModels(db) // 依据sequelize-auto自动生成的model
  * @returns {string} name 用户名
  */
 async function getNameById(uid) {
-  const name = await models.users.findOne({
-    where: {
-      id: uid
-    }
-  })
-  return name
+  if (uid !== undefined) {
+    const name = await models.users.findOne({
+      where: {
+        id: uid
+      }
+    })
+    return name
+  }
+}
+
+/**
+ * 通过用户的名字，在数据库中获取user信息
+ * @param { string } uName 用户的用户名
+ * @returns { * } user 用户信息
+ */
+async function getUserByName(uName) {
+  if (uName !== undefined) {
+    const user = await models.users.findOne({
+      where: {
+        username: uName
+      }
+    })
+    return user
+  }
 }
 
 module.exports = {
-  getNameById
+  getNameById,
+  getUserByName
 }
