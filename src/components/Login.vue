@@ -2,14 +2,14 @@
   <div id="login">
     <div class="login_container">
         <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="login_box">
-            <el-form-item label="用户名" prop="userName">
-                <el-input v-model="loginForm.userName"></el-input>
+            <el-form-item label="用户名" prop="username">
+                <el-input v-model="loginForm.username"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">登陆</el-button>
+                <el-button type="primary" @click="login">登陆</el-button>
                 <el-button>注册</el-button>
             </el-form-item>
         </el-form>
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       loginForm: {
-        userName: '',
+        username: '',
         password: ''
       },
       loginRules: {
@@ -35,6 +35,16 @@ export default {
           { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    async login() {
+      console.log(this.loginForm)
+      const res = await this.$http.post('/user', this.loginForm)
+      console.log(res)
+      // this.$http.post('/user', this.loginForm).then(res => {
+      //   console.log(res)
+      // })
     }
   }
 

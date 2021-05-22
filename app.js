@@ -4,6 +4,7 @@ const Koa = require('koa')
 const json = require('koa-json')
 const logger = require('koa-logger')
 const router = require('./server/routes/index')
+const cors = require('koa2-cors')
 
 const app = new Koa()
 app.use(require('koa-bodyparser')())
@@ -24,7 +25,7 @@ app.use(async (ctx, next) => {
 app.on('error', (err) => {
   console.log('server error', err)
 })
-
+app.use(cors())
 app.use(router.routes(), router.allowedMethods()) // 将路由规则挂载到app上
 
 app.listen(8889, () => {
