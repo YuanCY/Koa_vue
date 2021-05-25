@@ -1,5 +1,6 @@
 const userModel = require('../models/user')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 // const koajwt = require('koa-jwt')
 /**
  * 通过获取url中的id，在数据库中查找用户名，并返回到网页中
@@ -20,7 +21,18 @@ async function postUserLogin(ctx) {
   const data = ctx.request.body // 获取ctx中post传入的参数
   console.log(data)
   const userInfo = await userModel.getUserByName(data.username) // 获取从数据库中获取到的用户信息
-  if (userInfo != null && userInfo.password === data.password) { // 若userInfo不为空，表示用户名正确，并且输入密码等于数据库用户密码
+  /***
+   * bcryptjs是nodejs中比较好的一款加盐(salt)加密的包
+      bcrypt.hashSync(数据or密码) 生成hash值，加盐的hash值。
+      bcrypt.compareSync(原始值(也可以理解为明文密码), 生成的hash值) 虽然每次生成的hash值都不一样，但是这个compareSync函数可以比对出密码和hash值。
+      注意：此时数据库中传入的值，必须要是生成的hash值，数据库中不要加明文密码，防止因为数据库泄漏导致密码明文泄漏。
+   * =====================================================
+   *    const hasPwd = bcrypt.hashSync(data.password) // 生成的值每次都不一样
+        const result = bcrypt.compareSync(data.password, userInfo.password)
+        console.log(result)
+   */
+
+  if (userInfo != null && bcrypt.compareSync(data.password, userInfo.password)) { // 若userInfo不为空，表示用户名正确，并且输入密码等于数据库用户密码
     // 表示登陆成功
     const userTokenInfo = {
       name: userInfo.username,
