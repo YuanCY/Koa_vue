@@ -6,7 +6,7 @@
                 <el-input v-model="loginForm.username"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-                <el-input v-model="loginForm.password"></el-input>
+                <el-input v-model="loginForm.password" show-password></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="login">登陆</el-button>
@@ -42,9 +42,21 @@ export default {
       console.log(this.loginForm)
       const res = await this.$http.post('/user', this.loginForm)
       console.log(res)
-      // this.$http.post('/user', this.loginForm).then(res => {
-      //   console.log(res)
-      // })
+      if (res.data.success) {
+        // 登陆成功
+        this.$message({
+          message: res.data.info,
+          type: 'success'
+        })
+        // 将服务器返回的token临时存储在浏览器中
+        window.sessionStorage.setItem('token', res.data.token)
+      } else {
+        // 登陆失败
+        this.$message({
+          message: res.data.info,
+          type: 'warning'
+        })
+      }
     }
   }
 
