@@ -10,7 +10,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="login">登陆</el-button>
-                <el-button>注册</el-button>
+                <el-button @click="registered">注册</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -57,6 +57,9 @@ export default {
           type: 'warning'
         })
       }
+    },
+    registered() {
+      this.$router.push('/welcome')
     }
   }
 
