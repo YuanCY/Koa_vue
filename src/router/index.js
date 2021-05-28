@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Welcome from '../components/Welcome.vue'
+import Registered from '../components/Registered.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,11 @@ const routes = [
     path: '/welcome',
     name: 'Welcome',
     component: Welcome
+  },
+  {
+    path: '/registered',
+    name: 'Registered',
+    component: Registered
   }
 ]
 
@@ -32,7 +38,7 @@ router.beforeEach((to, from, next) => {
   // to 将要访问的路径
   // from 从哪个路径跳转而来
   // next 是一个函数，表示放行，next()放行，或者next('/login')
-  if (to.path === '/login') return next() // 如果路径是去login登陆页面，那么就直接返回放行
+  if (to.path === '/login' || to.path === '/registered') return next() // 如果路径是去login登陆页面，那么就直接返回放行
   const token = window.sessionStorage.getItem('token') // 获取token
   if (!token) { // 如果token不存在
     next('/login')
