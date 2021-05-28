@@ -32,7 +32,7 @@ async function postUserLogin(ctx) {
         console.log(result)
    */
 
-  if (userInfo != null && bcrypt.compareSync(data.password, userInfo.password)) { // 若userInfo不为空，表示用户名正确，并且输入密码等于数据库用户密码
+  if (userInfo !== null && bcrypt.compareSync(data.password, userInfo.password)) { // 若userInfo不为空，表示用户名正确，并且输入密码等于数据库用户密码
     // 表示登陆成功
     const userTokenInfo = {
       name: userInfo.username,
@@ -61,7 +61,51 @@ async function postUserLogin(ctx) {
   }
 }
 
+async function postAddUser(ctx) {
+  const data = ctx.request.body // 获取ctx中post传入的参数
+  // 1、先校验数据库中是否有一样的用户名
+  const userInfo = await userModel.getUserByName(data.regName) // 获取从数据库中获取到的用户信息
+  if (userInfo === null) {
+    // 2、校验无此用户后，创建用户根据用户数据输入
+    // 创建用户
+    const userObj = {
+      username: data.regName,
+      password: passwordBcrypt(data.regPassword1),
+      email: data.regEmail,
+      phone: data.regPhone
+    }
+    const addMsg = await userModel.addUser(userObj)
+    if (addMsg !== null) {
+      ctx.body = {
+        success: true,
+        msg: '创建成功'
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        msg: '未知异常：数据库'
+      }
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      msg: '已经有该用户名存在'
+    }
+  }
+}
+
+/**
+ * 将用户密码传入进去，然后进行生成hash值，返回密码的hash值
+ * @param {string} userPasswd 用户明文密码
+ * @returns hashPasswd 用户密码的hash值
+ */
+function passwordBcrypt(userPasswd) {
+  const hashPasswd = bcrypt.hashSync(userPasswd)
+  return hashPasswd
+}
+
 module.exports = {
   getUserName,
-  postUserLogin
+  postUserLogin,
+  postAddUser
 }

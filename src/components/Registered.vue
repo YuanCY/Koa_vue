@@ -95,9 +95,24 @@ export default {
   },
   methods: {
     regUser() {
-      this.$refs.regForm.validate(valid => {
+      this.$refs.regForm.validate(async valid => {
         if (valid) {
           console.log('提交')
+          const res = await this.$http.post('/user/adduser', this.regForm)
+          console.log(res)
+          if (res.data.success) {
+            // 创建成功
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            })
+          } else {
+            // 创建失败
+            this.$message({
+              message: res.data.msg,
+              type: 'warning'
+            })
+          }
         } else {
           console.log('提交失败')
           return false

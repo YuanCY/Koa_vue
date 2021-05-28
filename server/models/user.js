@@ -34,8 +34,14 @@ async function getUserByName(uName) {
     return user
   }
 }
-
+async function addUser(userObj) {
+  if (userObj !== undefined) {
+    const user = await models.users.create(userObj)
+    return user
+  }
+}
 module.exports = {
   getNameById,
-  getUserByName
+  getUserByName,
+  addUser
 }
