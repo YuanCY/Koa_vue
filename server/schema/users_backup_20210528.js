@@ -1,3 +1,4 @@
+// const sequelize = require('sequelize')
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
     'users',
@@ -17,15 +18,6 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.CHAR(180),
         allowNull: false,
         defaultValue: ''
-      },
-      email: {
-        type: DataTypes.CHAR(180),
-        allowNull: false,
-        defaultValue: ''
-      },
-      phone: {
-        type: DataTypes.CHAR(20),
-        allowNull: true
       }
     },
     {
