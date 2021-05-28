@@ -6,12 +6,15 @@
         :model="regForm"
         :rules="regRules"
         ref="regForm"
-        label-width="100px"
+        label-width="80px"
         class="regForm"
       >
-        <el-form-item label="用户名" prop="regName">
+        <el-form-item label="用户名" prop="regName" id="regName">
           <el-input v-model="regForm.regName"></el-input>
         </el-form-item>
+        <!-- <div class="checkRepeat">
+            <el-button icon="el-icon-search" circle @click="checkNameRepeat" ></el-button><span class="checkRepeatResult">点击检查用户名是否重复</span>
+        </div> -->
         <el-form-item label="密码" prop="regPassword1">
           <el-input v-model="regForm.regPassword1"></el-input>
         </el-form-item>
@@ -42,6 +45,13 @@ export default {
         callback()
       }
     }
+    // const checkRepeatToName = (rule, value, callback) => {
+    //   if (this.checkNameRepeatFlag) {
+    //     callback()
+    //   } else {
+    //     callback(new Error('用户名已注册！请更换用户名！！'))
+    //   }
+    // }
     return {
       regForm: {
         regName: '',
@@ -59,6 +69,7 @@ export default {
             message: '长度在 3 到 10 个英文数字字符',
             trigger: 'blur'
           }
+        //   { required: true, validator: checkRepeatToName, trigger: 'blur' }
         ],
         regPassword1: [
           { required: true, message: '请输入密码', trigger: 'blur' },
@@ -77,6 +88,7 @@ export default {
           }
         ]
       }
+    //   checkNameRepeatFlag: false
     }
   },
   computed: {
@@ -109,7 +121,7 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   width: 400px;
-  padding: 0 30px;
+  padding: 0 50px;
   background-color: #f6f8fa;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -127,4 +139,14 @@ export default {
   font-size: 30px;
   text-align: center;
 }
+
+// .checkRepeat{
+//   transform: scale(0.8);
+//   margin: 10px 55px 10px;
+
+// }
+// .checkRepeatResult{
+//   color: #b1b2b1;
+//   margin-left: 10px;
+// }
 </style>
