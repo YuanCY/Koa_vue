@@ -106,6 +106,7 @@ export default {
               message: res.data.msg,
               type: 'success'
             })
+            this.$router.push('login')
           } else {
             // 创建失败
             this.$message({
