@@ -50,7 +50,7 @@ export default {
         })
         // 将服务器返回的token临时存储在浏览器中
         window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/welcome')
+        this.$router.push('/background')
       } else {
         // 登陆失败
         this.$message({

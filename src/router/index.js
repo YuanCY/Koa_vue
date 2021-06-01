@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Welcome from '../components/Welcome.vue'
 import Registered from '../components/Registered.vue'
+import Background from '../components/background/Background.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/registered',
     name: 'Registered',
     component: Registered
+  },
+  {
+    path: '/background',
+    name: 'Background',
+    component: Background
   }
 ]
 
