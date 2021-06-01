@@ -1,6 +1,7 @@
 <template>
   <div class="reg">
     <div class="regContainer">
+      <div class="backLogin el-icon-back" @click="backLogin"></div>
       <div class="regTitel">用户注册</div>
       <el-form
         :model="regForm"
@@ -16,10 +17,10 @@
             <el-button icon="el-icon-search" circle @click="checkNameRepeat" ></el-button><span class="checkRepeatResult">点击检查用户名是否重复</span>
         </div> -->
         <el-form-item label="密码" prop="regPassword1">
-          <el-input v-model="regForm.regPassword1"></el-input>
+          <el-input v-model="regForm.regPassword1" show-password></el-input>
         </el-form-item>
         <el-form-item label="重复密码" prop="regPassword2">
-          <el-input v-model="regForm.regPassword2"></el-input>
+          <el-input v-model="regForm.regPassword2" show-password></el-input>
         </el-form-item>
         <el-form-item label="电子邮箱" prop="regEmail">
           <el-input v-model="regForm.regEmail"></el-input>
@@ -119,6 +120,9 @@ export default {
           return false
         }
       })
+    },
+    backLogin() {
+      this.$router.push('/login')
     }
   }
 }
@@ -154,6 +158,15 @@ export default {
   margin: 15px auto;
   font-size: 30px;
   text-align: center;
+}
+.backLogin {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 30px;
+}
+.backLogin:hover{
+  color: #8acff6;
 }
 
 // .checkRepeat{

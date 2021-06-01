@@ -83,6 +83,8 @@ export default {
     height: 250px;
     background-color: #f6f8fa;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 .login_box{
     position: absolute;
