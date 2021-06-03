@@ -11,11 +11,13 @@
     </div>
     <div class="main">
       <el-table :data="userTableData" border>
-        <el-table-column prop="date" label="日期">
+        <el-table-column prop="username" label="用户名">
         </el-table-column>
-        <el-table-column prop="name" label="姓名">
+        <el-table-column prop="email" label="邮箱">
         </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
+        <el-table-column prop="phone" label="手机"> </el-table-column>
+        <el-table-column prop="createTime" label="创建时间"> </el-table-column>
+        <el-table-column prop="updateTime" label="更新时间"> </el-table-column>
       </el-table>
     </div>
   </div>
@@ -25,9 +27,21 @@
 export default {
   data() {
     return {
-      userTableData: [
-        { name: 'samyuan', address: '湖南省株洲市天元区', date: '1994-07-25' }
-      ]
+      userTableData: []
+    }
+  },
+  created() {
+    this.getUserList()
+  },
+  methods: {
+    async getUserList() {
+      const res = await this.$http.get('/user')
+      if (res.status === 200) {
+        this.userTableData = res.data
+        console.log(this.userTableData)
+      } else {
+        console.log('数据获取失败')
+      }
     }
   }
 }

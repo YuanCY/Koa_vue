@@ -107,8 +107,14 @@ function passwordBcrypt(userPasswd) {
   return hashPasswd
 }
 
+async function getUserList(ctx) {
+  const userList = await userModel.getAllUser()
+  ctx.body = userList
+}
+
 module.exports = {
   getUserName,
   postUserLogin,
-  postAddUser
+  postAddUser,
+  getUserList
 }

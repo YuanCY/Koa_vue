@@ -19,6 +19,11 @@ async function getNameById(uid) {
   }
 }
 
+async function getAllUser() {
+  const users = await models.users.findAll()
+  return users
+}
+
 /**
  * 通过用户的名字，在数据库中获取user信息
  * @param { string } uName 用户的用户名
@@ -43,5 +48,6 @@ async function addUser(userObj) {
 module.exports = {
   getNameById,
   getUserByName,
+  getAllUser,
   addUser
 }
