@@ -69,13 +69,13 @@ async function postAddUser(ctx) {
   if (userInfo === null) {
     // 2、校验无此用户后，创建用户根据用户数据输入
     // 创建用户
-    console.log(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
     const userObj = {
       username: data.regName,
       password: passwordBcrypt(data.regPassword1),
       email: data.regEmail,
       phone: data.regPhone,
-      createTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      createTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
     }
     const addMsg = await userModel.addUser(userObj)
     if (addMsg !== null) {
