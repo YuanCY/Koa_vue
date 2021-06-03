@@ -6,6 +6,7 @@ body,
     padding: 0;
     box-sizing: border-box;
     min-width: 500px;
+    background-color: #fff;
 }
 .el-container{
     height: 100%;

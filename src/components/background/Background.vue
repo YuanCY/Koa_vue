@@ -6,7 +6,34 @@
         <el-button round class="logoutBtn" size="small" @click="logoutDialogVisible = true">退出登陆</el-button>
       </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="200px">
+          <!-- ===============侧边栏============== -->
+           <el-menu
+            default-active="1"
+            class="el-menu-vertical-demo"
+            router
+          >
+            <el-submenu index="1">
+              <template slot="title">
+                <i class="el-icon-user-solid"></i>
+                <span>用户管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="userlist">用户列表</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-s-management"></i>
+                <span>文章管理</span>
+              </template>
+              <el-menu-item-group>
+                <el-menu-item index="2-1">文章列表</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-menu>
+          <!-- ===============侧边栏============== -->
+        </el-aside>
         <el-main>
           <!-- ===============退出登陆弹窗============== -->
           <el-dialog
@@ -21,7 +48,7 @@
             </span>
           </el-dialog>
           <!-- ===============退出登陆弹窗============== -->
-        Main
+        <router-view></router-view>
         </el-main>
       </el-container>
     </el-container>

@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import Welcome from '../components/Welcome.vue'
 import Registered from '../components/Registered.vue'
 import Background from '../components/background/Background.vue'
+import UserList from '../components/background/UserList.vue'
 
 Vue.use(VueRouter)
 
@@ -30,7 +31,10 @@ const routes = [
   {
     path: '/background',
     name: 'Background',
-    component: Background
+    component: Background,
+    children: [
+      { path: '/userlist', name: 'UserList', component: UserList }
+    ]
   }
 ]
 

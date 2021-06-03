@@ -10,7 +10,15 @@ import {
   Aside,
   Main,
   Footer,
-  Dialog
+  Dialog,
+  Menu,
+  Submenu,
+  MenuItemGroup,
+  MenuItem,
+  Breadcrumb,
+  BreadcrumbItem,
+  Table,
+  TableColumn
 } from 'element-ui'
 
 Vue.use(Button)
@@ -23,5 +31,13 @@ Vue.use(Aside)
 Vue.use(Main)
 Vue.use(Footer)
 Vue.use(Dialog)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItemGroup)
+Vue.use(MenuItem)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 Vue.prototype.$message = Message
