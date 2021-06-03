@@ -1,6 +1,7 @@
 const userModel = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const moment = require('moment')
 // const koajwt = require('koa-jwt')
 /**
  * 通过获取url中的id，在数据库中查找用户名，并返回到网页中
@@ -68,11 +69,13 @@ async function postAddUser(ctx) {
   if (userInfo === null) {
     // 2、校验无此用户后，创建用户根据用户数据输入
     // 创建用户
+    console.log(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
     const userObj = {
       username: data.regName,
       password: passwordBcrypt(data.regPassword1),
       email: data.regEmail,
-      phone: data.regPhone
+      phone: data.regPhone,
+      createTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
     }
     const addMsg = await userModel.addUser(userObj)
     if (addMsg !== null) {

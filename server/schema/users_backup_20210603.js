@@ -26,10 +26,6 @@ module.exports = function(sequelize, DataTypes) {
       phone: {
         type: DataTypes.CHAR(20),
         allowNull: true
-      },
-      createTime: {
-        type: DataTypes.DATE,
-        allowNull: true
       }
     },
     {
