@@ -17,8 +17,12 @@
         <el-table-column prop="email" label="邮箱" width="165">
         </el-table-column>
         <el-table-column prop="phone" label="手机" width="120"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间"></el-table-column>
-        <el-table-column prop="updateTime" label="更新时间"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" v-slot="props">
+          {{ timeFormat(props.row.createTime) }}
+        </el-table-column>
+        <el-table-column prop="updateTime" label="更新时间" v-slot="props">
+            {{ timeFormat(props.row.createTime) }}
+        </el-table-column>
         <el-table-column label="操作" v-slot="props" width="150">
             <el-button type="primary" size="mini" class="editBtn">编辑</el-button>
             <el-popconfirm
@@ -42,6 +46,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -91,6 +96,9 @@ export default {
         this.$message.error(res.data.info)
         this.getUserList()
       }
+    },
+    timeFormat(date) {
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 }

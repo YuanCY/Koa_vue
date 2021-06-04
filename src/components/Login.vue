@@ -40,7 +40,7 @@ export default {
   methods: {
     async login() {
       console.log(this.loginForm)
-      const res = await this.$http.post('/user', this.loginForm)
+      const res = await this.$http.post('/login', this.loginForm)
       console.log(res)
       if (res.data.success) {
         // 登陆成功
