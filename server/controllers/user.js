@@ -62,6 +62,10 @@ async function postUserLogin(ctx) {
   }
 }
 
+/**
+ * 通过post新增用户
+ * @param {*} ctx
+ */
 async function postAddUser(ctx) {
   const data = ctx.request.body // 获取ctx中post传入的参数
   // 1、先校验数据库中是否有一样的用户名
@@ -107,15 +111,40 @@ function passwordBcrypt(userPasswd) {
   return hashPasswd
 }
 
+/**
+ * 通过获取get传入的参数，向数据库获取用户列表
+ * @param {*} ctx
+ */
 async function getUserList(ctx) {
   const data = ctx.query // 获取get传入的参数
   const userList = await userModel.getAllUser(data.pagenum, data.pagesize, data.query)
   ctx.body = userList
 }
 
+async function deleteUser(ctx) {
+  const data = ctx.params
+  console.log(typeof (data.id))
+  const deleteInfo = await userModel.deleteUserInfo(data.id)
+  // console.log(typeof (deleteInfo)) // number
+  if (deleteInfo === 1) {
+    console.log('删除成功')
+    ctx.body = {
+      success: true,
+      info: '删除成功'
+    }
+  } else {
+    console.log('删除失败')
+    ctx.body = {
+      success: false,
+      info: '删除失败'
+    }
+  }
+}
+
 module.exports = {
   getUserName,
   postUserLogin,
   postAddUser,
-  getUserList
+  getUserList,
+  deleteUser
 }

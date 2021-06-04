@@ -55,15 +55,38 @@ async function getUserByName(uName) {
     return user
   }
 }
+
+/**
+ * 添加一名用户
+ * @param {*} userObj 用户对象，储存有用户名，密码等。
+ * @returns 返回用户信息
+ */
 async function addUser(userObj) {
   if (userObj !== undefined) {
-    const user = await models.users.create(userObj)
-    return user
+    const createInfo = await models.users.create(userObj)
+    return createInfo
+  }
+}
+
+/**
+ * 提供id给函数，函数在数据库中删除对应
+ * @param {*} uid 用户的id
+ * @returns 返回删除的信息
+ */
+async function deleteUserInfo(uid) {
+  if (uid !== undefined) {
+    const deleteInfo = await models.users.destroy({
+      where: {
+        id: uid
+      }
+    })
+    return deleteInfo
   }
 }
 module.exports = {
   getNameById,
   getUserByName,
   getAllUser,
-  addUser
+  addUser,
+  deleteUserInfo
 }
