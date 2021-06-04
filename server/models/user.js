@@ -18,9 +18,20 @@ async function getNameById(uid) {
     return name
   }
 }
-
-async function getAllUser() {
-  const users = await models.users.findAll()
+/**
+ * 该函数为获取数据库数据，根据不同参数返回不同结果
+ * @param {*} pagenum 当前页码 不能为空
+ * @param {*} pagesize 每页显示条数
+ * @param {*} query 查询参数 可以为空
+ * @returns users, 按要求返回的用户
+ */
+async function getAllUser(pagenum, pagesize, query) {
+  const num = parseInt(pagenum) // 传入的参数为string类型，需要转换为number类型
+  const size = parseInt(pagesize)
+  const users = await models.users.findAll({
+    offset: (num - 1) * size, // offset是跳过多少条数据
+    limit: size // limit是查询多少条数据
+  })
   return users
 }
 

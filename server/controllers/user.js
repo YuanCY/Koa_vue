@@ -108,7 +108,8 @@ function passwordBcrypt(userPasswd) {
 }
 
 async function getUserList(ctx) {
-  const userList = await userModel.getAllUser()
+  const data = ctx.query // 获取get传入的参数
+  const userList = await userModel.getAllUser(data.pagenum, data.pagesize, data.query)
   ctx.body = userList
 }
 

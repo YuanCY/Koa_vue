@@ -15,9 +15,9 @@
         </el-table-column>
         <el-table-column prop="email" label="邮箱">
         </el-table-column>
-        <el-table-column prop="phone" label="手机"> </el-table-column>
-        <el-table-column prop="createTime" label="创建时间"> </el-table-column>
-        <el-table-column prop="updateTime" label="更新时间"> </el-table-column>
+        <el-table-column prop="phone" label="手机"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间"></el-table-column>
+        <el-table-column prop="updateTime" label="更新时间"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -27,6 +27,11 @@
 export default {
   data() {
     return {
+      userlistConfig: {
+        query: '',
+        pagenum: 1,
+        pagesize: 5
+      },
       userTableData: []
     }
   },
@@ -35,7 +40,7 @@ export default {
   },
   methods: {
     async getUserList() {
-      const res = await this.$http.get('/user')
+      const res = await this.$http.get('/user', { params: this.userlistConfig })
       if (res.status === 200) {
         this.userTableData = res.data
         console.log(this.userTableData)
