@@ -32,7 +32,12 @@ async function getAllUser(pagenum, pagesize, query) {
     offset: (num - 1) * size, // offset是跳过多少条数据
     limit: size // limit是查询多少条数据
   })
-  return users
+  const total = await models.users.findAndCountAll()
+  return {
+    users: users,
+    pagenum: num,
+    total: total.count
+  }
 }
 
 /**
