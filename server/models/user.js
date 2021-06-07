@@ -1,8 +1,8 @@
 const initModels = require('../schema/init-models')
 const db = require('../config/db')
-
+const Sequelize = require('sequelize')
 const models = initModels(db) // 依据sequelize-auto自动生成的model
-
+const Op = Sequelize.Op
 /**
  * 通过传入用户uid，在数据库中查找id为uid的，返回用户名字
  * @param {int} uid 用户id
@@ -28,9 +28,16 @@ async function getNameById(uid) {
 async function getAllUser(pagenum, pagesize, query) {
   const num = parseInt(pagenum) // 传入的参数为string类型，需要转换为number类型
   const size = parseInt(pagesize)
+  const where = {
+    username: {
+      [Op.like]: `%${query.trim()}%`
+    }
+  }
   const users = await models.users.findAll({
+    where,
     offset: (num - 1) * size, // offset是跳过多少条数据
-    limit: size // limit是查询多少条数据
+    limit: size, // limit是查询多少条数据
+    attributes: ['username', 'id', 'email', 'phone', 'createTime', 'updateTime'] // attributes，在里面写入你需要返回的字段即可，其他字段就可以过滤掉了
   })
   const total = await models.users.findAndCountAll()
   return {
