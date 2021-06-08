@@ -11,8 +11,16 @@
     </div>
     <div class="serach">
       <!-- =============搜索================ -->
-      <el-input placeholder="请输入内容" v-model="serachInput" @change="serachUser">
-        <el-button slot="append" icon="el-icon-search" @click="serachUser"></el-button>
+      <el-input
+        placeholder="请输入查询用户名"
+        v-model="userlistConfig.query"
+        @change="getUserList"
+      >
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="getUserList"
+        ></el-button>
       </el-input>
       <!-- =============搜索================ -->
     </div>
@@ -31,10 +39,10 @@
           {{ timeFormat(props.row.createTime) }}
         </el-table-column>
         <el-table-column prop="updateTime" label="更新时间" v-slot="props">
-          {{ timeFormat(props.row.createTime) }}
+          {{ timeFormat(props.row.updateTime) }}
         </el-table-column>
         <el-table-column label="操作" v-slot="props" width="150">
-          <el-button type="primary" size="mini" class="editBtn">编辑</el-button>
+          <el-button type="primary" size="mini" class="editBtn" @click="openEditDilog(props.row.id)">编辑</el-button>
           <el-popconfirm
             title="确认删除该用户吗？"
             @confirm="deleteUser(props.row.id)"
@@ -49,12 +57,38 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="userlistConfig.pagenum"
-        :page-sizes="[5, 10, 15]"
+        :page-sizes="[5, 10]"
         :page-size="userlistConfig.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       >
       </el-pagination>
+      <!-- ====================== 编辑修改 ====================== -->
+      <el-dialog
+        title="提示"
+        :visible.sync="editDialogVisible"
+        width="30%"
+        :before-close="editUserHandleClose"
+      >
+        <el-form :model="editUserInfo" :rules="userRules" ref="userRuleForm" >
+          <el-form-item label="用户名" prop="username">
+            <el-input v-model="editUserInfo.username" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="Email" prop="email">
+            <el-input v-model="editUserInfo.email"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="editUserInfo.phone"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editUserUpload()"
+            >确 定</el-button
+          >
+        </span>
+      </el-dialog>
+      <!-- ====================== 编辑修改 ====================== -->
     </div>
   </div>
 </template>
@@ -69,9 +103,15 @@ export default {
         pagenum: 1,
         pagesize: 5
       },
+      editUserInfo: {
+        // username: '',
+        // email: '',
+        // phone: ''
+      },
+      userRules: {},
       userTableData: [],
       total: 0,
-      serachInput: ''
+      editDialogVisible: false
     }
   },
   created() {
@@ -119,9 +159,35 @@ export default {
     timeFormat(date) {
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
-    serachUser() {
-    //   console.log(this.serachInput)
-      this.userlistConfig.query = this.serachInput
+
+    /**
+     * 传入id，通过id获取该行编辑文档内容，显示在编辑dilog中。并打开编辑dilog菜单
+     */
+    async openEditDilog(id) {
+      console.log(id)
+      // 通过id获取用户信息
+      const res = await this.$http.get(`user/${id}`)
+      console.log(res)
+      this.editUserInfo = res.data
+      this.editDialogVisible = true
+    },
+    /**
+     * 当编辑用户信息窗口关闭时
+     */
+    editUserHandleClose() {
+      this.editUserInfo = {}
+      this.editDialogVisible = false
+    },
+    async editUserUpload() {
+      console.log(this.editUserInfo.id) // 是要修改的id
+      const res = await this.$http.put(`/user/${this.editUserInfo.id}`, this.editUserInfo)
+      console.log(res)
+      if (res.data.success) {
+        this.$message.success(res.data.msg)
+      } else {
+        this.$message.error(res.data.msg)
+      }
+      this.editUserHandleClose()
       this.getUserList()
     }
   }

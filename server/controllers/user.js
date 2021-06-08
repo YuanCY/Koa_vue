@@ -100,6 +100,30 @@ async function postAddUser(ctx) {
     }
   }
 }
+async function putEditUser(ctx) {
+  const data = ctx.request.body // 获取ctx中post传入的参数
+  const userEdit = {
+    id: data.id,
+    username: data.username,
+    email: data.email,
+    phone: data.phone,
+    updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  }
+  console.log('+++++++')
+  console.log(userEdit.updateTime)
+  const putEidtInfo = await userModel.editUser(userEdit)
+  if (putEidtInfo[0] === 1) {
+    ctx.body = {
+      success: true,
+      msg: '修改用户信息成功'
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      msg: '修改用户信息失败'
+    }
+  }
+}
 
 /**
  * 将用户密码传入进去，然后进行生成hash值，返回密码的hash值
@@ -121,6 +145,10 @@ async function getUserList(ctx) {
   ctx.body = userList
 }
 
+/**
+ * 删除指定id的用户
+ * @param {*} ctx
+ */
 async function deleteUser(ctx) {
   const data = ctx.params
   console.log(typeof (data.id))
@@ -145,6 +173,7 @@ module.exports = {
   getUserName,
   postUserLogin,
   postAddUser,
+  putEditUser,
   getUserList,
   deleteUser
 }

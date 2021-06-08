@@ -13,7 +13,8 @@ async function getNameById(uid) {
     const name = await models.users.findOne({
       where: {
         id: uid
-      }
+      },
+      attributes: ['username', 'id', 'email', 'phone', 'createTime', 'updateTime'] // attributes，在里面写入你需要返回的字段即可，其他字段就可以过滤掉了
     })
     return name
   }
@@ -30,7 +31,7 @@ async function getAllUser(pagenum, pagesize, query) {
   const size = parseInt(pagesize)
   const where = {
     username: {
-      [Op.like]: `%${query.trim()}%`
+      [Op.like]: `%${query.trim()}%` // 模糊搜索，在username中模糊搜索 trim()可以去除字符串前后空格
     }
   }
   const users = await models.users.findAll({
@@ -75,6 +76,17 @@ async function addUser(userObj) {
   }
 }
 
+async function editUser(userObj) {
+  if (userObj !== undefined) {
+    const editInfo = await models.users.update(userObj, {
+      where: {
+        id: userObj.id
+      }
+    })
+    return editInfo
+  }
+}
+
 /**
  * 提供id给函数，函数在数据库中删除对应
  * @param {*} uid 用户的id
@@ -95,5 +107,6 @@ module.exports = {
   getUserByName,
   getAllUser,
   addUser,
+  editUser,
   deleteUserInfo
 }
