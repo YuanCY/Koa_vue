@@ -42,7 +42,13 @@
           {{ timeFormat(props.row.updateTime) }}
         </el-table-column>
         <el-table-column label="操作" v-slot="props" width="150">
-          <el-button type="primary" size="mini" class="editBtn" @click="openEditDilog(props.row.id)">编辑</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            class="editBtn"
+            @click="openEditDilog(props.row.id)"
+            >编辑</el-button
+          >
           <el-popconfirm
             title="确认删除该用户吗？"
             @confirm="deleteUser(props.row.id)"
@@ -70,7 +76,11 @@
         width="30%"
         :before-close="editUserHandleClose"
       >
-        <el-form :model="editUserInfo" :rules="userRules" ref="userRuleForm" >
+        <el-form
+          :model="editUserInfo"
+          :rules="userEditRules"
+          ref="userRuleForm"
+        >
           <el-form-item label="用户名" prop="username">
             <el-input v-model="editUserInfo.username" disabled></el-input>
           </el-form-item>
@@ -83,9 +93,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editUserUpload()"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="editUserUpload()">确 定</el-button>
         </span>
       </el-dialog>
       <!-- ====================== 编辑修改 ====================== -->
@@ -108,7 +116,12 @@ export default {
         // email: '',
         // phone: ''
       },
-      userRules: {},
+      userEditRules: {
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        ]
+      },
       userTableData: [],
       total: 0,
       editDialogVisible: false
@@ -180,7 +193,10 @@ export default {
     },
     async editUserUpload() {
       console.log(this.editUserInfo.id) // 是要修改的id
-      const res = await this.$http.put(`/user/${this.editUserInfo.id}`, this.editUserInfo)
+      const res = await this.$http.put(
+        `/user/${this.editUserInfo.id}`,
+        this.editUserInfo
+      )
       console.log(res)
       if (res.data.success) {
         this.$message.success(res.data.msg)
