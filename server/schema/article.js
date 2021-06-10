@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
-    'users',
+    'article',
     {
       id: {
         autoIncrement: true,
@@ -8,37 +8,43 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         primaryKey: true
       },
-      username: {
-        type: DataTypes.CHAR(50),
+      title: {
+        type: DataTypes.STRING(255),
         allowNull: false,
         defaultValue: ''
       },
-      password: {
-        type: DataTypes.CHAR(180),
-        allowNull: false,
-        defaultValue: ''
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
-      email: {
-        type: DataTypes.CHAR(180),
-        allowNull: false,
-        defaultValue: ''
-      },
-      phone: {
-        type: DataTypes.CHAR(20),
+      description: {
+        type: DataTypes.TEXT,
         allowNull: true
       },
-      createTime: {
+      content: {
+        type: DataTypes.TEXT,
+        allowNull: false
+      },
+      createAt: {
         type: DataTypes.DATE,
         allowNull: false
       },
-      updateTime: {
+      updateAt: {
         type: DataTypes.DATE,
+        allowNull: false
+      },
+      image: {
+        type: DataTypes.STRING(255),
+        allowNull: true
+      },
+      isShow: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
       }
     },
     {
       sequelize,
-      tableName: 'users',
+      tableName: 'article',
       timestamps: false,
       indexes: [
         {

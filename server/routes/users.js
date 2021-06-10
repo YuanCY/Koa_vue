@@ -5,9 +5,9 @@ const user = new Router()
 // user.post('/')
 user.get('/', userMethod.getUserList)
 // user.post('/', userMethod.postUserLogin)
+user.post('/adduser', userMethod.postAddUser)
 user.get('/:id', userMethod.getUserName)
 user.put('/:id', userMethod.putEditUser)
 user.delete('/:id', userMethod.deleteUser)
-user.post('/adduser', userMethod.postAddUser)
 
 module.exports = user
