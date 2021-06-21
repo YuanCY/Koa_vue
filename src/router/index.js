@@ -5,6 +5,8 @@ import Welcome from '../components/Welcome.vue'
 import Registered from '../components/Registered.vue'
 import Background from '../components/background/Background.vue'
 import UserList from '../components/background/UserList.vue'
+import Article from '../components/article/Article.vue'
+import AddArticle from '../components/article/addArticle.vue'
 
 Vue.use(VueRouter)
 
@@ -33,7 +35,9 @@ const routes = [
     name: 'Background',
     component: Background,
     children: [
-      { path: '/userlist', name: 'UserList', component: UserList }
+      { path: '/userlist', name: 'UserList', component: UserList },
+      { path: '/article', name: 'Article', component: Article },
+      { path: '/addarticle', name: 'AddArticle', component: AddArticle }
     ]
   }
 ]
