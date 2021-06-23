@@ -39,6 +39,11 @@ const routes = [
       { path: '/article', name: 'Article', component: Article },
       { path: '/addarticle', name: 'AddArticle', component: AddArticle }
     ]
+  },
+  {
+    path: '/fuck',
+    name: 'AddArticle',
+    component: AddArticle
   }
 ]
 

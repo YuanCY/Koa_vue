@@ -86,6 +86,7 @@ export default {
   background-color: #6aacde;
 }
 .el-main {
+  height: 100%;
   background-color: #eee;
 }
 .logoutBtn {
