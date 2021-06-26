@@ -7,6 +7,7 @@ import Background from '../components/background/Background.vue'
 import UserList from '../components/background/UserList.vue'
 import Article from '../components/article/Article.vue'
 import AddArticle from '../components/article/addArticle.vue'
+import test2 from '../components/article/test2.vue'
 
 Vue.use(VueRouter)
 
@@ -37,13 +38,9 @@ const routes = [
     children: [
       { path: '/userlist', name: 'UserList', component: UserList },
       { path: '/article', name: 'Article', component: Article },
-      { path: '/addarticle', name: 'AddArticle', component: AddArticle }
+      { path: '/addarticle', name: 'AddArticle', component: AddArticle },
+      { path: '/test', name: 'test', component: test2 }
     ]
-  },
-  {
-    path: '/fuck',
-    name: 'AddArticle',
-    component: AddArticle
   }
 ]
 

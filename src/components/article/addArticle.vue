@@ -31,17 +31,26 @@
             v-model="addArticleRuleForm.description"
             maxlength="140"
             show-word-limit
-            rows='6'
+            rows="6"
           >
           </el-input>
         </el-form-item>
         <el-form-item label="正文" prop="content">
-          <div ref="content"></div>
+          <ckeditor :editor="editor" :config="editorConfig" v-model="addArticleRuleForm.content"></ckeditor>
         </el-form-item>
-        <el-form-item label="首页图片" prop="image">
+        <el-form-item label="首页图片" prop="image"> </el-form-item>
+        <el-form-item label="是否发布" prop="isShow">
+          <el-switch
+            v-model="addArticleRuleForm.isShow"
+            active-color="#13ce66"
+            inactive-color="#6e6e6e"
+          >
+          </el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="submit" @click="submitArticle" round>发布</el-button>
+          <el-button type="primary" class="submit" @click="submitArticle" round
+            >发布</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -49,28 +58,33 @@
 </template>
 
 <script>
-import E from 'wangeditor'
+import CKEditor from '@ckeditor/ckeditor5-vue2'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import '@ckeditor/ckeditor5-build-classic/build/translations/zh-cn'
+
 export default {
   data() {
     return {
       addArticleRuleForm: {
         title: '',
         description: '',
-        content: ''
+        content: '',
+        isShow: false
       },
       addArticleRules: {
-        title: [
-          { required: true, message: '请输入文章标题', trigger: 'blur' }
-        ]
+        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }]
       },
-      editor: null
+      editor: ClassicEditor,
+      editorConfig: {
+        language: 'zh-cn',
+        minHeight: 800
+      }
     }
   },
-  computed: {
-    articleContent() {
-      return this.editor.txt.html()
-    }
+  components: {
+    ckeditor: CKEditor.component
   },
+  computed: {},
   mounted() {
     // 在生命周期mounted，挂载阶段。created是创建阶段。
     /**
@@ -79,30 +93,16 @@ export default {
      * beforeUpdate \ updated    运行更新阶段
      * beforeDestory \ destoryed 销毁阶段
      */
-    this.editor = new E(this.$refs.content)
-    this.editor.create()
   },
   methods: {
     submitArticle() {
-      if (this.editor.txt.html() === '') {
-        this.$message.error('请输入文章主体')
-      } else {
-        this.$refs.addArticleRuleForm.validate(vaild => {
-          if (vaild) {
-            // 将文本框中的正文内容输入赋值给content
-            this.addArticleRuleForm.content = this.editor.txt.html()
-            console.log(this.addArticleRuleForm)
-          } else {
-            console.log('meiyouyong')
-          }
-        })
-      }
+      console.log('文章为：')
+      console.log(this.addArticleRuleForm)
     }
   },
   beforeDestroy() {
-    // 需要销毁编辑器
-    this.editor.destroy()
-    this.editor = null
+    if (this.editor) {
+    }
   }
 }
 </script>
@@ -119,14 +119,13 @@ export default {
 .main {
   padding: 20px;
 }
-#app{
+#app {
   height: auto;
 }
-.articleForm{
+.articleForm {
   position: relative;
 }
-.submit{
+.submit {
   width: 100px;
 }
-
 </style>
