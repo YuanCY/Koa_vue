@@ -45,6 +45,7 @@ async function postUserLogin(ctx) {
       success: true,
       token: token,
       username: userInfo.username,
+      id: userInfo.id,
       info: '登陆成功'
     }
   } else if (userInfo === null) {

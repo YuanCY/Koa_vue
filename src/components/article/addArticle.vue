@@ -67,6 +67,7 @@ export default {
     return {
       addArticleRuleForm: {
         title: '',
+        authorId: null,
         description: '',
         content: '',
         isShow: false
@@ -84,7 +85,12 @@ export default {
   components: {
     ckeditor: CKEditor.component
   },
-  computed: {},
+  computed: {
+  },
+  created() {
+    console.log('该文章的作者id', window.sessionStorage.getItem('loginId'))
+    this.addArticleRuleForm.authorId = window.sessionStorage.getItem('loginId')
+  },
   mounted() {
     // 在生命周期mounted，挂载阶段。created是创建阶段。
     /**
@@ -93,6 +99,8 @@ export default {
      * beforeUpdate \ updated    运行更新阶段
      * beforeDestory \ destoryed 销毁阶段
      */
+    // 将当前登陆的用户id，做为该文章的作者id
+    // this.addArticleRuleForm.authorId = this.$store.getters.getLoginAuthorId
   },
   methods: {
     submitArticle() {
