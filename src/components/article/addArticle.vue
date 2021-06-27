@@ -77,8 +77,7 @@ export default {
       },
       editor: ClassicEditor,
       editorConfig: {
-        language: 'zh-cn',
-        minHeight: 800
+        language: 'zh-cn'
       }
     }
   },
@@ -103,9 +102,10 @@ export default {
     // this.addArticleRuleForm.authorId = this.$store.getters.getLoginAuthorId
   },
   methods: {
-    submitArticle() {
-      console.log('文章为：')
+    async submitArticle() {
       console.log(this.addArticleRuleForm)
+      const res = await this.$http.post('/article', this.addArticleRuleForm)
+      console.log(res)
     }
   },
   beforeDestroy() {
