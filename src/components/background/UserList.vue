@@ -1,102 +1,106 @@
 <template>
-  <div id="app">
-    <div class="header">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/background' }"
-          >首页</el-breadcrumb-item
+  <div>
+    <div class="userContent">
+      <div class="header">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/background' }"
+            >首页</el-breadcrumb-item
+          >
+          <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+          <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="serach">
+        <!-- =============搜索================ -->
+        <el-input
+          placeholder="请输入查询用户名"
+          v-model="userlistConfig.query"
+          @change="getUserList"
         >
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="serach">
-      <!-- =============搜索================ -->
-      <el-input
-        placeholder="请输入查询用户名"
-        v-model="userlistConfig.query"
-        @change="getUserList"
-      >
-        <el-button
-          slot="append"
-          icon="el-icon-search"
-          @click="getUserList"
-        ></el-button>
-      </el-input>
-      <!-- =============搜索================ -->
-    </div>
-    <div class="main">
-      <el-table :data="userTableData" border>
-        <el-table-column type="index"></el-table-column>
-        <el-table-column prop="username" label="用户名"> </el-table-column>
-        <el-table-column prop="email" label="邮箱" width="165">
-        </el-table-column>
-        <el-table-column
-          prop="phone"
-          label="手机"
-          width="120"
-        ></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" v-slot="props">
-          {{ timeFormat(props.row.createTime) }}
-        </el-table-column>
-        <el-table-column prop="updateTime" label="更新时间" v-slot="props">
-          {{ timeFormat(props.row.updateTime) }}
-        </el-table-column>
-        <el-table-column label="操作" v-slot="props" width="150">
           <el-button
-            type="primary"
-            size="mini"
-            class="editBtn"
-            @click="openEditDilog(props.row.id)"
-            >编辑</el-button
-          >
-          <el-popconfirm
-            title="确认删除该用户吗？"
-            @confirm="deleteUser(props.row.id)"
-          >
-            <el-button slot="reference" type="danger" size="mini"
-              >删除</el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="getUserList"
+          ></el-button>
+        </el-input>
+        <!-- =============搜索================ -->
+      </div>
+      <div class="main">
+        <el-table :data="userTableData" border>
+          <el-table-column type="index"></el-table-column>
+          <el-table-column prop="username" label="用户名"> </el-table-column>
+          <el-table-column prop="email" label="邮箱" width="165">
+          </el-table-column>
+          <el-table-column
+            prop="phone"
+            label="手机"
+            width="120"
+          ></el-table-column>
+          <el-table-column prop="createTime" label="创建时间" v-slot="props">
+            {{ timeFormat(props.row.createTime) }}
+          </el-table-column>
+          <el-table-column prop="updateTime" label="更新时间" v-slot="props">
+            {{ timeFormat(props.row.updateTime) }}
+          </el-table-column>
+          <el-table-column label="操作" v-slot="props" width="150">
+            <el-button
+              type="primary"
+              size="mini"
+              class="editBtn"
+              @click="openEditDilog(props.row.id)"
+              >编辑</el-button
             >
-          </el-popconfirm>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="userlistConfig.pagenum"
-        :page-sizes="[5, 10]"
-        :page-size="userlistConfig.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
-      <!-- ====================== 编辑修改 ====================== -->
-      <el-dialog
-        title="提示"
-        :visible.sync="editDialogVisible"
-        width="30%"
-        :before-close="editUserHandleClose"
-      >
-        <el-form
-          :model="editUserInfo"
-          :rules="userEditRules"
-          ref="userRuleForm"
+            <el-popconfirm
+              title="确认删除该用户吗？"
+              @confirm="deleteUser(props.row.id)"
+            >
+              <el-button slot="reference" type="danger" size="mini"
+                >删除</el-button
+              >
+            </el-popconfirm>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="userlistConfig.pagenum"
+          :page-sizes="[5, 10]"
+          :page-size="userlistConfig.pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
         >
-          <el-form-item label="用户名" prop="username">
-            <el-input v-model="editUserInfo.username" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="Email" prop="email">
-            <el-input v-model="editUserInfo.email"></el-input>
-          </el-form-item>
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="editUserInfo.phone"></el-input>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editUserUpload()">确 定</el-button>
-        </span>
-      </el-dialog>
-      <!-- ====================== 编辑修改 ====================== -->
+        </el-pagination>
+        <!-- ====================== 编辑修改 ====================== -->
+        <el-dialog
+          title="提示"
+          :visible.sync="editDialogVisible"
+          width="30%"
+          :before-close="editUserHandleClose"
+        >
+          <el-form
+            :model="editUserInfo"
+            :rules="userEditRules"
+            ref="userRuleForm"
+          >
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="editUserInfo.username" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="editUserInfo.email"></el-input>
+            </el-form-item>
+            <el-form-item label="手机号" prop="phone">
+              <el-input v-model="editUserInfo.phone"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="editDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="editUserUpload()"
+              >确 定</el-button
+            >
+          </span>
+        </el-dialog>
+        <!-- ====================== 编辑修改 ====================== -->
+      </div>
     </div>
   </div>
 </template>
@@ -119,7 +123,11 @@ export default {
       userEditRules: {
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+          {
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
+          }
         ]
       },
       userTableData: [],

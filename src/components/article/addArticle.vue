@@ -1,58 +1,68 @@
 <template>
-  <div id="app">
-    <div class="header">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/background' }"
-          >首页</el-breadcrumb-item
+  <div>
+    <div class="userContent">
+      <div class="header">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/background' }"
+            >首页</el-breadcrumb-item
+          >
+          <el-breadcrumb-item>文章管理</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/article' }"
+            >文章列表</el-breadcrumb-item
+          >
+          <el-breadcrumb-item>新增文章</el-breadcrumb-item>
+        </el-breadcrumb>
+        <h1>创建一个新文章</h1>
+      </div>
+      <div class="main">
+        <el-form
+          :model="addArticleRuleForm"
+          :rules="addArticleRules"
+          ref="addArticleRuleForm"
+          label-width="100px"
+          class="articleForm"
         >
-        <el-breadcrumb-item>文章管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/article' }"
-          >文章列表</el-breadcrumb-item
-        >
-        <el-breadcrumb-item>新增文章</el-breadcrumb-item>
-      </el-breadcrumb>
-      <h1>创建一个新文章</h1>
-    </div>
-    <div class="main">
-      <el-form
-        :model="addArticleRuleForm"
-        :rules="addArticleRules"
-        ref="addArticleRuleForm"
-        label-width="100px"
-        class="articleForm"
-      >
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="addArticleRuleForm.title"></el-input>
-        </el-form-item>
-        <el-form-item label="描述" prop="description">
-          <el-input
-            type="textarea"
-            placeholder="请输入文章描述"
-            v-model="addArticleRuleForm.description"
-            maxlength="140"
-            show-word-limit
-            rows="6"
-          >
-          </el-input>
-        </el-form-item>
-        <el-form-item label="正文" prop="content">
-          <ckeditor :editor="editor" :config="editorConfig" v-model="addArticleRuleForm.content"></ckeditor>
-        </el-form-item>
-        <el-form-item label="首页图片" prop="image"> </el-form-item>
-        <el-form-item label="是否发布" prop="isShow">
-          <el-switch
-            v-model="addArticleRuleForm.isShow"
-            active-color="#13ce66"
-            inactive-color="#6e6e6e"
-          >
-          </el-switch>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" class="submit" @click="submitArticle" round
-            >发布</el-button
-          >
-        </el-form-item>
-      </el-form>
+          <el-form-item label="标题" prop="title">
+            <el-input v-model="addArticleRuleForm.title"></el-input>
+          </el-form-item>
+          <el-form-item label="描述" prop="description">
+            <el-input
+              type="textarea"
+              placeholder="请输入文章描述"
+              v-model="addArticleRuleForm.description"
+              maxlength="140"
+              show-word-limit
+              rows="6"
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item label="正文" prop="content">
+            <ckeditor
+              :editor="editor"
+              :config="editorConfig"
+              v-model="addArticleRuleForm.content"
+            ></ckeditor>
+          </el-form-item>
+          <el-form-item label="首页图片" prop="image"> </el-form-item>
+          <el-form-item label="是否发布" prop="isShow">
+            <el-switch
+              v-model="addArticleRuleForm.isShow"
+              active-color="#13ce66"
+              inactive-color="#6e6e6e"
+            >
+            </el-switch>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              class="submit"
+              @click="submitArticle"
+              round
+              >发布</el-button
+            >
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -84,8 +94,7 @@ export default {
   components: {
     ckeditor: CKEditor.component
   },
-  computed: {
-  },
+  computed: {},
   created() {
     console.log('该文章的作者id', window.sessionStorage.getItem('loginId'))
     this.addArticleRuleForm.authorId = window.sessionStorage.getItem('loginId')
