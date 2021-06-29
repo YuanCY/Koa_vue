@@ -115,6 +115,13 @@ export default {
       console.log(this.addArticleRuleForm)
       const res = await this.$http.post('/article', this.addArticleRuleForm)
       console.log(res)
+      // TODO:添加成功后需要做的事
+      if (res.data.success) {
+        this.$message.success(res.data.msg)
+        this.$router.push('/article')
+      } else {
+        this.$message.error(res.data.msg)
+      }
     }
   },
   beforeDestroy() {

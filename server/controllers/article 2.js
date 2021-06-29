@@ -21,6 +21,7 @@ async function getArticleList(ctx) {
  */
 async function postAddArticle(ctx) {
   const data = ctx.request.body // 获取ctx中post传入的参数
+  console.log(data)
   const articleInfo = { // 创建了一个文章对象
     title: data.title,
     authorId: data.authorId,
@@ -32,7 +33,19 @@ async function postAddArticle(ctx) {
     isShow: data.isShow
   }
   const addArticleInfo = await articleModel.addArticle(articleInfo)
+  console.log('=============')
   console.log(addArticleInfo)
+  if (addArticleInfo !== null) {
+    ctx.body = {
+      success: true,
+      msg: '添加文章成功'
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      msg: '未知错误：数据库'
+    }
+  }
 }
 
 module.exports = {

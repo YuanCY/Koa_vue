@@ -54,7 +54,7 @@
                 ></el-button>
               </el-form-item>
               <el-form-item class="articleContent" label="文章内容">
-                <div v-html="props.row.content"></div>
+                <div v-html="props.row.content" class="content"></div>
               </el-form-item>
             </el-form>
           </el-table-column>
@@ -158,6 +158,9 @@ export default {
   width: 100%;
   height: 200px;
   overflow: hidden;
+}
+.content {
+  padding-top: 20px;
 }
 .articleInfo {
   position: relative;
