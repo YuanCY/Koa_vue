@@ -54,7 +54,7 @@
                 ></el-button>
               </el-form-item>
               <el-form-item class="articleContent" label="文章内容">
-                <span>{{ props.row.content }}</span>
+                <div v-html="props.row.content"></div>
               </el-form-item>
             </el-form>
           </el-table-column>
@@ -77,6 +77,16 @@
           </el-table-column>
         </el-table>
         <!-- =============表格================ -->
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="articleConfig.pagenum"
+          :page-sizes="[5, 10]"
+          :page-size="articleConfig.pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="articleTotal"
+        >
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -118,6 +128,14 @@ export default {
     },
     addArticle() {
       this.$router.push('/addarticle')
+    },
+    handleSizeChange(val) {
+      this.articleConfig.pagesize = val
+      this.getArticleList()
+    },
+    handleCurrentChange(val) {
+      this.articleConfig.pagenum = val
+      this.getArticleList()
     }
   }
 }
@@ -151,5 +169,8 @@ export default {
 .addArticle {
   position: absolute;
   margin: 0 20px;
+}
+.el-pagination {
+  margin: 10px;
 }
 </style>
