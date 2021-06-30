@@ -112,8 +112,8 @@ async function putEditUser(ctx) {
   }
   console.log('+++++++')
   console.log(userEdit.updateTime)
-  const putEidtInfo = await userModel.editUser(userEdit)
-  if (putEidtInfo[0] === 1) {
+  const putEditInfo = await userModel.editUser(userEdit)
+  if (putEditInfo[0] === 1) {
     ctx.body = {
       success: true,
       msg: '修改用户信息成功'

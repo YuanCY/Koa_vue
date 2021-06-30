@@ -3,6 +3,7 @@ const articleMethod = require('../controllers/article')
 const article = new Router()
 
 article.get('/', articleMethod.getArticleList)
+article.get('/:id', articleMethod.getArticleInfoById)
 article.post('/', articleMethod.postAddArticle)
 article.delete('/:id', articleMethod.deleteArticle)
 

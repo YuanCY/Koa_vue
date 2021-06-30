@@ -34,8 +34,9 @@ async function postAddArticle(ctx) {
   const addArticleInfo = await articleModel.addArticle(articleInfo)
   console.log(addArticleInfo)
 }
+
 /**
- * 通过id删除指定文章
+ * 删：通过id删除指定文章
  * @param {*} ctx
  */
 async function deleteArticle(ctx) {
@@ -61,8 +62,46 @@ async function deleteArticle(ctx) {
   }
 }
 
+async function putEditArticle(ctx) {
+  const data = ctx.request.body // 获取ctx中put传入的参数
+  const articleEdit = {
+    id: data.id,
+    title: data.title,
+    description: data.description,
+    content: data.content,
+    updateAt: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+    image: data.image,
+    isShow: data.isShow
+  }
+  const putEditInfo = await articleModel.editArticle(articleEdit)
+  console.log(putEditInfo)
+  // TODO:
+}
+
+async function getArticleInfoById(ctx) {
+  const id = ctx.params.id
+  console.log('id' + id)
+  const articleInfoById = await articleModel.getArticleById(id)
+  console.log('+++++++++++++++++++')
+  console.log(articleInfoById)
+  if (articleInfoById !== null) {
+    ctx.body = {
+      articleInfo: articleInfoById,
+      success: true,
+      info: '获取成功'
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      info: '获取失败'
+    }
+  }
+}
+
 module.exports = {
   getArticleList,
   postAddArticle,
-  deleteArticle
+  deleteArticle,
+  putEditArticle,
+  getArticleInfoById
 }

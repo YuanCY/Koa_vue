@@ -10,9 +10,9 @@
           <el-breadcrumb-item :to="{ path: '/article' }"
             >文章列表</el-breadcrumb-item
           >
-          <el-breadcrumb-item>新增文章</el-breadcrumb-item>
+          <el-breadcrumb-item>修改文章</el-breadcrumb-item>
         </el-breadcrumb>
-        <h1>创建一个新文章</h1>
+        <h1>编辑文章</h1>
       </div>
       <div class="main">
         <el-form
@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       addArticleRuleForm: {
+        id: 0,
         title: '',
         authorId: null,
         description: '',
@@ -96,8 +97,7 @@ export default {
   },
   computed: {},
   created() {
-    console.log('该文章的作者id', window.sessionStorage.getItem('loginId'))
-    this.addArticleRuleForm.authorId = window.sessionStorage.getItem('loginId')
+    this.getEditArticleInfo()
   },
   mounted() {
     // 在生命周期mounted，挂载阶段。created是创建阶段。
@@ -111,16 +111,24 @@ export default {
     // this.addArticleRuleForm.authorId = this.$store.getters.getLoginAuthorId
   },
   methods: {
+    async getEditArticleInfo() {
+      this.addArticleRuleForm.id = this.$route.params.id
+      console.log('该文章的id：' + this.addArticleRuleForm.id)
+      const res = await this.$http.get(`/article/${this.addArticleRuleForm.id}`)
+      // console.log(res)
+      if (res.data.success) {
+        console.log('获取成功')
+        this.addArticleRuleForm = res.data.articleInfo
+        console.log(this.addArticleRuleForm)
+      } else {
+        console.log('获取失败')
+      }
+    },
+    /**
+     * 提交修改文章
+     */
     async submitArticle() {
       console.log(this.addArticleRuleForm)
-      const res = await this.$http.post('/article', this.addArticleRuleForm)
-      console.log(res)
-      if (res.data.success) {
-        this.$message.success(res.data.msg)
-        this.$router.push('/article')
-      } else {
-        this.$message.error(res.data.msg)
-      }
     }
   },
   beforeDestroy() {

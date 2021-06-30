@@ -30,6 +30,19 @@ async function getAllArticle(pagenum, pagesize, query) {
   }
 }
 
+async function getArticleById(uid) {
+  if (uid !== undefined) {
+    const articleInfo = await models.article.findOne({
+      where: {
+        id: uid
+      }
+    })
+    return articleInfo
+  } else {
+    return null
+  }
+}
+
 /**
  * 增：添加文章，通过传入文章对象，在数据库中创建文章实例。
  * @param {*} userObj 参数titel文章标题，authorId作者id，description文章描述，content文章内容，image文章图片链接，isShow是否显示
@@ -78,5 +91,6 @@ module.exports = {
   getAllArticle,
   addArticle,
   deleteArticle,
-  editArticle
+  editArticle,
+  getArticleById
 }

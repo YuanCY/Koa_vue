@@ -46,6 +46,7 @@
                   round
                   size="mini"
                   class="editBtn"
+                  @click="editBtn(props.row.id)"
                 ></el-button>
                 <el-popconfirm
                   confirm-button-text="好的"
@@ -153,6 +154,9 @@ export default {
         this.$message.error(res.data.info)
       }
       this.getArticleList()
+    },
+    editBtn(id) {
+      this.$router.push(`/editarticle/${id}`)
     },
     /**
      * 下方页码条功能，当页面条数发生改变时，相应该改变页面。
