@@ -34,8 +34,35 @@ async function postAddArticle(ctx) {
   const addArticleInfo = await articleModel.addArticle(articleInfo)
   console.log(addArticleInfo)
 }
+/**
+ * 通过id删除指定文章
+ * @param {*} ctx
+ */
+async function deleteArticle(ctx) {
+  const data = ctx.params
+  console.log(data)
+  console.log(typeof (data.id))
+  const deleteInfo = await articleModel.deleteArticle(data.id)
+  console.log('删除信息：')
+  console.log(deleteInfo)
+  // console.log(typeof (deleteInfo)) // number
+  if (deleteInfo === 1) {
+    console.log('删除成功')
+    ctx.body = {
+      success: true,
+      info: '删除文章成功'
+    }
+  } else {
+    console.log('删除失败')
+    ctx.body = {
+      success: false,
+      info: '删除失败'
+    }
+  }
+}
 
 module.exports = {
   getArticleList,
-  postAddArticle
+  postAddArticle,
+  deleteArticle
 }

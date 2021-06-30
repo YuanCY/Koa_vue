@@ -45,13 +45,18 @@
                   icon="el-icon-edit"
                   round
                   size="mini"
+                  class="editBtn"
                 ></el-button>
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  round
-                  size="mini"
-                ></el-button>
+                <el-popconfirm
+                  confirm-button-text="好的"
+                  cancel-button-text="不用了"
+                  icon="el-icon-info"
+                  icon-color="red"
+                  title="这是一段内容确定删除吗？"
+                  @confirm="deleteArticle(props.row.id)"
+                >
+                  <el-button slot="reference" type="danger" icon="el-icon-delete" round size="mini"></el-button>
+                </el-popconfirm>
               </el-form-item>
               <el-form-item class="articleContent" label="文章内容">
                 <div v-html="props.row.content"></div>
@@ -106,8 +111,7 @@ export default {
       articleTotal: 0
     }
   },
-  components: {
-  },
+  components: {},
   created() {
     this.getArticleList()
   },
@@ -128,13 +132,38 @@ export default {
     timeFormat(date) {
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
+    /**
+     * 增加文章，将页面跳转至新增文章的页面，打开addArticle.vue的页面
+     */
     addArticle() {
       this.$router.push('/addarticle')
     },
+    /**
+     * 通过传入文章id，将文章删除。
+     */
+    async deleteArticle(id) {
+      console.log(id)
+      const res = await this.$http.delete(`/article/${id}`)
+      console.log(res)
+      if (res.data.success) {
+        console.log('删除成功')
+        this.$message.success(res.data.info)
+      } else {
+        console.log('删除失败')
+        this.$message.error(res.data.info)
+      }
+      this.getArticleList()
+    },
+    /**
+     * 下方页码条功能，当页面条数发生改变时，相应该改变页面。
+     */
     handleSizeChange(val) {
       this.articleConfig.pagesize = val
       this.getArticleList()
     },
+    /**
+     * 下方页码条功能，当页数发生改变时，相应该改变页面。
+     */
     handleCurrentChange(val) {
       this.articleConfig.pagenum = val
       this.getArticleList()
@@ -175,5 +204,8 @@ export default {
 }
 .el-pagination {
   margin: 10px;
+}
+.editBtn{
+  margin-right: 10px;
 }
 </style>
