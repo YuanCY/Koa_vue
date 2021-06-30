@@ -129,6 +129,16 @@ export default {
      */
     async submitArticle() {
       console.log(this.addArticleRuleForm)
+      const res = await this.$http.put(`/article/${this.addArticleRuleForm.id}`, this.addArticleRuleForm)
+      console.log(res)
+      if (res.data.success) {
+        console.log('更新成功')
+        this.$message.success(res.data.info)
+        this.$router.push('/article')
+      } else {
+        console.log('更新失败')
+        this.$message.error(res.data.info)
+      }
     }
   },
   beforeDestroy() {

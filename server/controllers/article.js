@@ -74,8 +74,19 @@ async function putEditArticle(ctx) {
     isShow: data.isShow
   }
   const putEditInfo = await articleModel.editArticle(articleEdit)
+  console.log('=======-========')
   console.log(putEditInfo)
-  // TODO:
+  if (putEditInfo[0] === 1) {
+    ctx.body = {
+      success: true,
+      info: '更新成功'
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      info: '更新失败'
+    }
+  }
 }
 
 async function getArticleInfoById(ctx) {
