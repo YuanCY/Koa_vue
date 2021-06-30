@@ -77,7 +77,7 @@
             <el-switch
               v-model="props.row.isShow"
               active-color="#13ce66"
-              inactive-color="#ff4949"
+              inactive-color="#6e6e6e"
             ></el-switch>
           </el-table-column>
         </el-table>
