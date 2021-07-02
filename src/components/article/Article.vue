@@ -82,6 +82,7 @@
               v-model="props.row.isShow"
               active-color="#13ce66"
               inactive-color="#6e6e6e"
+              @change="changeIsShow(props.row.id, props.row.isShow)"
             ></el-switch>
           </el-table-column>
         </el-table>
@@ -113,7 +114,11 @@ export default {
       },
       articleTableData: [],
       articleTotal: 0,
-      authorInfo: {}
+      authorInfo: {},
+      articleForm: {
+        id: null,
+        isShow: false
+      }
     }
   },
   components: {},
@@ -179,6 +184,21 @@ export default {
     },
     editBtn(id) {
       this.$router.push(`/editarticle/${id}`)
+    },
+    async changeIsShow(id, isSow) {
+      console.log(id)
+      console.log(isSow)
+      this.articleForm.id = id
+      this.articleForm.isShow = isSow
+      console.log(this.articleForm)
+      const res = await this.$http.put(`/article/${id}`, this.articleForm)
+      console.log(res)
+      // TODO:
+      if (res.data.success) {
+        this.$message.success(res.data.info)
+      } else {
+        this.$message.error(res.data.info)
+      }
     },
     /**
      * 下方页码条功能，当页面条数发生改变时，相应该改变页面。
