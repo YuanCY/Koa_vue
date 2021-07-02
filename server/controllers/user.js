@@ -110,7 +110,6 @@ async function putEditUser(ctx) {
     phone: data.phone,
     updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
   }
-  console.log('+++++++')
   console.log(userEdit.updateTime)
   const putEditInfo = await userModel.editUser(userEdit)
   if (putEditInfo[0] === 1) {
@@ -170,11 +169,20 @@ async function deleteUser(ctx) {
   }
 }
 
+async function getAllIdAndName(ctx) {
+  const idNameInfo = await userModel.getIdNameList()
+  console.log(idNameInfo)
+  ctx.body = {
+    idNameInfo
+  }
+}
+
 module.exports = {
   getUserName,
   postUserLogin,
   postAddUser,
   putEditUser,
   getUserList,
-  deleteUser
+  deleteUser,
+  getAllIdAndName
 }

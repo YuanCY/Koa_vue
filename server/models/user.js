@@ -19,6 +19,12 @@ async function getNameById(uid) {
     return name
   }
 }
+async function getIdNameList() {
+  const idNameList = await models.users.findAll({
+    attributes: ['id', 'username']
+  })
+  return idNameList
+}
 /**
  * 该函数为获取数据库数据，根据不同参数返回不同结果
  * @param {*} pagenum 当前页码 不能为空
@@ -104,6 +110,7 @@ async function deleteUserInfo(uid) {
 }
 module.exports = {
   getNameById,
+  getIdNameList,
   getUserByName,
   getAllUser,
   addUser,

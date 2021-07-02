@@ -69,7 +69,10 @@
             label="作者"
             prop="authorId"
             width="100"
-          ></el-table-column>
+            v-slot="props"
+          >
+          {{authorInfo[props.row.authorId]}}
+          </el-table-column>
           <el-table-column
             label="文章描述"
             prop="description"
@@ -87,7 +90,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="articleConfig.pagenum"
-          :page-sizes="[5, 10]"
+          :page-sizes="[10, 15]"
           :page-size="articleConfig.pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="articleTotal"
@@ -106,17 +109,36 @@ export default {
       articleConfig: {
         query: '',
         pagenum: 1,
-        pagesize: 5
+        pagesize: 10
       },
       articleTableData: [],
-      articleTotal: 0
+      articleTotal: 0,
+      authorInfo: {}
     }
   },
   components: {},
   created() {
     this.getArticleList()
+    this.getAuthorId()
   },
   methods: {
+    /**
+     * 获取所有作者id与username的对照数据
+     */
+    async getAuthorId() {
+      const res = await this.$http.get('/user/alluserInfo')
+      console.log(res.data.idNameInfo)
+      res.data.idNameInfo.forEach(element => {
+        // console.log(element.id)
+        // console.log(element.username)
+        this.authorInfo[element.id] = element.username
+      })
+      // this.authorInfo = res.data.idNameInfo
+      console.log(this.authorInfo)
+    },
+    /**
+     * 获取所有文章列表
+     */
     async getArticleList() {
       const res = await this.$http.get('/article', {
         params: this.articleConfig
