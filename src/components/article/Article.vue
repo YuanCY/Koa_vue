@@ -193,7 +193,6 @@ export default {
       console.log(this.articleForm)
       const res = await this.$http.put(`/article/${id}`, this.articleForm)
       console.log(res)
-      // TODO:
       if (res.data.success) {
         this.$message.success(res.data.info)
       } else {
