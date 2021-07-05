@@ -31,8 +31,26 @@ async function postAddArticle(ctx) {
     image: data.image,
     isShow: data.isShow
   }
-  const addArticleInfo = await articleModel.addArticle(articleInfo)
-  console.log(addArticleInfo)
+  if (articleInfo.title === '' || articleInfo.content === '') {
+    ctx.body = {
+      success: false,
+      info: '创建文章错误，文章标题、主体为空'
+    }
+  } else {
+    const addArticleInfo = await articleModel.addArticle(articleInfo)
+    console.log(addArticleInfo)
+    if (addArticleInfo !== null) {
+      ctx.body = {
+        success: true,
+        info: '创建文章成功'
+      }
+    } else {
+      ctx.body = {
+        success: false,
+        info: 'model异常'
+      }
+    }
+  }
 }
 
 /**

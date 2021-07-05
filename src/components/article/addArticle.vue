@@ -83,7 +83,8 @@ export default {
         isShow: false
       },
       addArticleRules: {
-        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }]
+        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入文章正文', trigger: 'blur' }]
       },
       editor: ClassicEditor,
       editorConfig: {
@@ -111,16 +112,23 @@ export default {
     // this.addArticleRuleForm.authorId = this.$store.getters.getLoginAuthorId
   },
   methods: {
-    async submitArticle() {
+    submitArticle() {
       console.log(this.addArticleRuleForm)
-      const res = await this.$http.post('/article', this.addArticleRuleForm)
-      console.log(res)
-      if (res.data.success) {
-        this.$message.success(res.data.msg)
-        this.$router.push('/article')
-      } else {
-        this.$message.error(res.data.msg)
-      }
+      this.$refs.addArticleRuleForm.validate(async val => {
+        console.log(val)
+        if (val) {
+          const res = await this.$http.post('/article', this.addArticleRuleForm)
+          console.log(res)
+          if (res.data.success) {
+            this.$message.success(res.data.info)
+            this.$router.push('/article')
+          } else {
+            this.$message.error(res.data.info)
+          }
+        } else {
+          this.$message.error('请输入标题、以及文章主体！！')
+        }
+      })
     }
   },
   beforeDestroy() {
