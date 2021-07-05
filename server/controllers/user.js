@@ -1,6 +1,7 @@
 const userModel = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const moment = require('moment')
 // const koajwt = require('koa-jwt')
 /**
  * 通过获取url中的id，在数据库中查找用户名，并返回到网页中
@@ -44,6 +45,7 @@ async function postUserLogin(ctx) {
       success: true,
       token: token,
       username: userInfo.username,
+      id: userInfo.id,
       info: '登陆成功'
     }
   } else if (userInfo === null) {
@@ -61,6 +63,10 @@ async function postUserLogin(ctx) {
   }
 }
 
+/**
+ * 通过post新增用户
+ * @param {*} ctx
+ */
 async function postAddUser(ctx) {
   const data = ctx.request.body // 获取ctx中post传入的参数
   // 1、先校验数据库中是否有一样的用户名
@@ -72,7 +78,9 @@ async function postAddUser(ctx) {
       username: data.regName,
       password: passwordBcrypt(data.regPassword1),
       email: data.regEmail,
-      phone: data.regPhone
+      phone: data.regPhone,
+      createTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
     }
     const addMsg = await userModel.addUser(userObj)
     if (addMsg !== null) {
@@ -93,6 +101,29 @@ async function postAddUser(ctx) {
     }
   }
 }
+async function putEditUser(ctx) {
+  const data = ctx.request.body // 获取ctx中post传入的参数
+  const userEdit = {
+    id: data.id,
+    username: data.username,
+    email: data.email,
+    phone: data.phone,
+    updateTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+  }
+  console.log(userEdit.updateTime)
+  const putEditInfo = await userModel.editUser(userEdit)
+  if (putEditInfo[0] === 1) {
+    ctx.body = {
+      success: true,
+      msg: '修改用户信息成功'
+    }
+  } else {
+    ctx.body = {
+      success: false,
+      msg: '修改用户信息失败'
+    }
+  }
+}
 
 /**
  * 将用户密码传入进去，然后进行生成hash值，返回密码的hash值
@@ -104,8 +135,54 @@ function passwordBcrypt(userPasswd) {
   return hashPasswd
 }
 
+/**
+ * 通过获取get传入的参数，向数据库获取用户列表
+ * @param {*} ctx
+ */
+async function getUserList(ctx) {
+  const data = ctx.query // 获取get传入的参数
+  const userList = await userModel.getAllUser(data.pagenum, data.pagesize, data.query)
+  ctx.body = userList
+}
+
+/**
+ * 删除指定id的用户
+ * @param {*} ctx
+ */
+async function deleteUser(ctx) {
+  const data = ctx.params
+  console.log(typeof (data.id))
+  const deleteInfo = await userModel.deleteUserInfo(data.id)
+  // console.log(typeof (deleteInfo)) // number
+  if (deleteInfo === 1) {
+    console.log('删除成功')
+    ctx.body = {
+      success: true,
+      info: '删除成功'
+    }
+  } else {
+    console.log('删除失败')
+    ctx.body = {
+      success: false,
+      info: '删除失败'
+    }
+  }
+}
+
+async function getAllIdAndName(ctx) {
+  const idNameInfo = await userModel.getIdNameList()
+  console.log(idNameInfo)
+  ctx.body = {
+    idNameInfo
+  }
+}
+
 module.exports = {
   getUserName,
   postUserLogin,
-  postAddUser
+  postAddUser,
+  putEditUser,
+  getUserList,
+  deleteUser,
+  getAllIdAndName
 }

@@ -3,8 +3,12 @@ const userMethod = require('../controllers/user')
 const user = new Router()
 
 // user.post('/')
-user.get('/:id', userMethod.getUserName)
-user.post('/', userMethod.postUserLogin)
+user.get('/', userMethod.getUserList)
+// user.post('/', userMethod.postUserLogin)
 user.post('/adduser', userMethod.postAddUser)
+user.get('/alluserInfo', userMethod.getAllIdAndName)
+user.get('/:id', userMethod.getUserName)
+user.put('/:id', userMethod.putEditUser)
+user.delete('/:id', userMethod.deleteUser)
 
 module.exports = user

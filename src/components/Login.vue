@@ -39,8 +39,8 @@ export default {
   },
   methods: {
     async login() {
-      console.log(this.loginForm)
-      const res = await this.$http.post('/user', this.loginForm)
+      // console.log(this.loginForm)
+      const res = await this.$http.post('/login', this.loginForm)
       console.log(res)
       if (res.data.success) {
         // 登陆成功
@@ -50,7 +50,9 @@ export default {
         })
         // 将服务器返回的token临时存储在浏览器中
         window.sessionStorage.setItem('token', res.data.token)
-        this.$router.push('/welcome')
+        // 将服务器返回的登陆用户id，临时存储在浏览器中
+        window.sessionStorage.setItem('loginId', res.data.id)
+        this.$router.push('/background')
       } else {
         // 登陆失败
         this.$message({
@@ -83,6 +85,8 @@ export default {
     height: 250px;
     background-color: #f6f8fa;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 .login_box{
     position: absolute;

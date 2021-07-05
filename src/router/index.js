@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Welcome from '../components/Welcome.vue'
 import Registered from '../components/Registered.vue'
+import Background from '../components/background/Background.vue'
+import UserList from '../components/background/UserList.vue'
+import Article from '../components/article/Article.vue'
+import AddArticle from '../components/article/addArticle.vue'
+import EditArticle from '../components/article/editArticle.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +30,17 @@ const routes = [
     path: '/registered',
     name: 'Registered',
     component: Registered
+  },
+  {
+    path: '/background',
+    name: 'Background',
+    component: Background,
+    children: [
+      { path: '/userlist', name: 'UserList', component: UserList },
+      { path: '/article', name: 'Article', component: Article },
+      { path: '/addarticle', name: 'AddArticle', component: AddArticle },
+      { path: '/editarticle/:id', name: 'EditArticle', component: EditArticle }
+    ]
   }
 ]
 
