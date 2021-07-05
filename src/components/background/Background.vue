@@ -19,7 +19,7 @@
                 <span>用户管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="userlist">用户列表</el-menu-item>
+                <el-menu-item index="userlist"><i class="el-icon-user"></i>用户列表</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
@@ -28,7 +28,13 @@
                 <span>文章管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="article">文章列表</el-menu-item>
+                <el-menu-item index="article"><i class="el-icon-document"></i>文章列表</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <el-menu-item index="category"><i class="el-icon-receiving"></i>文章类别</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <el-menu-item index=""><i class="el-icon-delete"></i>回收站</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>
