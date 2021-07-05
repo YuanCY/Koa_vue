@@ -21,7 +21,9 @@ import {
   TableColumn,
   Pagination,
   Popconfirm,
-  Switch
+  Switch,
+  PageHeader,
+  Drawer
 } from 'element-ui'
 
 Vue.use(Button)
@@ -45,5 +47,7 @@ Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Popconfirm)
 Vue.use(Switch)
+Vue.use(PageHeader)
+Vue.use(Drawer)
 
 Vue.prototype.$message = Message

@@ -2,7 +2,7 @@
   <div>
     <div class="userContent">
       <div class="header">
-        <el-breadcrumb separator="/">
+        <!-- <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/background' }"
             >首页</el-breadcrumb-item
           >
@@ -12,7 +12,9 @@
           >
           <el-breadcrumb-item>修改文章</el-breadcrumb-item>
         </el-breadcrumb>
-        <h1>编辑文章</h1>
+        <h1>编辑文章</h1> -->
+        <el-page-header @back="goBack" content="编辑文章">
+        </el-page-header>
       </div>
       <div class="main">
         <el-form
@@ -147,6 +149,9 @@ export default {
           this.$message.error('请输入文章标题、正文！')
         }
       })
+    },
+    goBack() {
+      this.$router.push('/article')
     }
   },
   beforeDestroy() {

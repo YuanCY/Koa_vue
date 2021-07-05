@@ -9,6 +9,7 @@ import Article from '../components/article/Article.vue'
 import AddArticle from '../components/article/addArticle.vue'
 import EditArticle from '../components/article/editArticle.vue'
 import Category from '../components/article/articleCategory.vue'
+import Recycle from '../components/article/recycle.vue'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,8 @@ const routes = [
       { path: '/article', name: 'Article', component: Article },
       { path: '/addarticle', name: 'AddArticle', component: AddArticle },
       { path: '/editarticle/:id', name: 'EditArticle', component: EditArticle },
-      { path: '/category', name: 'Category', component: Category }
+      { path: '/category', name: 'Category', component: Category },
+      { path: '/recycle', name: 'Recycle', component: Recycle }
     ]
   }
 ]

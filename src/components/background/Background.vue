@@ -34,7 +34,7 @@
                 <el-menu-item index="category"><i class="el-icon-receiving"></i>文章类别</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group>
-                <el-menu-item index=""><i class="el-icon-delete"></i>回收站</el-menu-item>
+                <el-menu-item index="recycle"><i class="el-icon-delete"></i>回收站</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>
