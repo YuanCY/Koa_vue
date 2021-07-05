@@ -84,7 +84,8 @@ export default {
         isShow: false
       },
       addArticleRules: {
-        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }]
+        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入文章正文', trigger: 'blur' }]
       },
       editor: ClassicEditor,
       editorConfig: {
@@ -127,18 +128,25 @@ export default {
     /**
      * 提交修改文章
      */
-    async submitArticle() {
+    submitArticle() {
       console.log(this.addArticleRuleForm)
-      const res = await this.$http.put(`/article/${this.addArticleRuleForm.id}`, this.addArticleRuleForm)
-      console.log(res)
-      if (res.data.success) {
-        console.log('更新成功')
-        this.$message.success(res.data.info)
-        this.$router.push('/article')
-      } else {
-        console.log('更新失败')
-        this.$message.error(res.data.info)
-      }
+      this.$refs.addArticleRuleForm.validate(async val => {
+        console.log(val)
+        if (val) {
+          const res = await this.$http.put(`/article/${this.addArticleRuleForm.id}`, this.addArticleRuleForm)
+          console.log(res)
+          if (res.data.success) {
+            console.log('更新成功')
+            this.$message.success(res.data.info)
+            this.$router.push('/article')
+          } else {
+            console.log('更新失败')
+            this.$message.error(res.data.info)
+          }
+        } else {
+          this.$message.error('请输入文章标题、正文！')
+        }
+      })
     }
   },
   beforeDestroy() {
