@@ -57,6 +57,8 @@ async function addCategroy(categoryObj) {
         cagegoryName: categoryObj.cagegoryName
       }
     })
+    console.log('需要测试一下这个返回值')
+    console.log(addInfo)
     return addInfo // TODO:需要测试一下这个返回值
   }
 }
