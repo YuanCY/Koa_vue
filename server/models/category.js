@@ -59,7 +59,7 @@ async function addCategroy(categoryObj) {
     })
     console.log('需要测试一下这个返回值')
     console.log(addInfo)
-    return addInfo // TODO:需要测试一下这个返回值
+    return addInfo // 该返回值为一个数组[category, true] category是创建的分类对象，后面的true是数据库中书否存在该项，true为不存在（后续会创建一个该项），false为存在。
   }
 }
 

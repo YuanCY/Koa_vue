@@ -10,17 +10,21 @@
           <el-breadcrumb-item>文章类别</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="main">
-          <el-button
-            @click="visibleCategroy = true"
-            type="primary"
-            class="addCategroy"
-          >
-            新增类别
-          </el-button>
+          <div class="addCategroy">
+            <el-input
+              placeholder="请输入文章分类"
+              v-model="newCategroy"
+              class="inputCategory"
+            >
+              <el-button slot="append" icon="el-icon-finished" @click="addCategory"></el-button>
+            </el-input>
+          </div>
+          <div class="categoryList"></div>
           <el-drawer
-            title="我是标题"
+            title="文章类别管理"
             :visible.sync="visibleCategroy"
             :direction="direction"
+            size="70%"
           >
             <span>我来啦!</span>
           </el-drawer>
@@ -35,11 +39,38 @@ export default {
   data() {
     return {
       visibleCategroy: false,
-      direction: 'rtl'
+      direction: 'rtl',
+      newCategroy: ''
+    }
+  },
+  methods: {
+    async addCategory() {
+      console.log(this.newCategroy)
+      if (this.newCategroy.trim() === '') {
+        this.$message.error('文章分类不能为空')
+      } else {
+        const categoryInfo = {
+          cagegoryName: this.newCategroy
+        }
+        const res = await this.$http.post('/category', categoryInfo)
+        console.log(res)
+        if (res.data.success) {
+          this.$message.success(res.data.info)
+        } else {
+          this.$message.warning(res.data.info)
+        }
+        this.newCategroy = ''
+      }
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+.addCategroy {
+  margin: 20px;
+}
+.inputCategory {
+  width: 400px;
+}
 </style>

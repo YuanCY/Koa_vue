@@ -36,12 +36,19 @@ async function postAddCategory(ctx) {
       info: '错误：分类名称为空！'
     }
   } else {
-    const addCategroyInfo = await categoryModel.addCategroyInfo(categoryInfo)
+    const addCategroyInfo = await categoryModel.addCategroy(categoryInfo)
     console.log(addCategroyInfo)
     if (addCategroyInfo !== null) {
-      ctx.body = {
-        success: true,
-        info: '创建分类成功'
+      if (addCategroyInfo[1]) {
+        ctx.body = {
+          success: true,
+          info: '创建分类成功'
+        }
+      } else {
+        ctx.body = {
+          success: false,
+          info: '已经存在该分类'
+        }
       }
     } else {
       ctx.body = {
