@@ -24,8 +24,7 @@ async function getAllCategory(pagenum, pagesize, query) {
   })
   return {
     category: category,
-    pagenum: pagenum,
-    total: category.count
+    pagenum: pagenum
   }
 }
 /**
@@ -85,12 +84,15 @@ async function deleteCategory(uid) {
  * @returns 返回删除信息
  */
 async function editCategory(categoryObj) {
+  console.log(categoryObj)
   if (categoryObj !== undefined) {
     const editInfo = await models.category.update(categoryObj, {
       where: {
         id: categoryObj.id
       }
     })
+    console.log('model:')
+    console.log(editInfo)
     return editInfo
   }
 }
