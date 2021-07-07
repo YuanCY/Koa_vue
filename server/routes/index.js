@@ -5,6 +5,7 @@ const router = new Router()
 const user = require('./users')
 const login = require('./login')
 const article = require('./articles')
+const category = require('./category')
 
 router.get('/', async ctx => {
   ctx.body = 'hello index'
@@ -13,5 +14,6 @@ router.get('/', async ctx => {
 router.use('/user', user.routes(), user.allowedMethods())
 router.use('/login', login.routes(), login.allowedMethods())
 router.use('/article', article.routes(), article.allowedMethods())
+router.use('/category', category.routes(), category.allowedMethods())
 
 module.exports = router

@@ -2,7 +2,7 @@
   <div>
     <div class="userContent">
       <div class="header">
-        <el-breadcrumb separator="/">
+        <!-- <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/background' }"
             >首页</el-breadcrumb-item
           >
@@ -12,7 +12,9 @@
           >
           <el-breadcrumb-item>修改文章</el-breadcrumb-item>
         </el-breadcrumb>
-        <h1>编辑文章</h1>
+        <h1>编辑文章</h1> -->
+        <el-page-header @back="goBack" content="编辑文章">
+        </el-page-header>
       </div>
       <div class="main">
         <el-form
@@ -84,7 +86,8 @@ export default {
         isShow: false
       },
       addArticleRules: {
-        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }]
+        title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
+        content: [{ required: true, message: '请输入文章正文', trigger: 'blur' }]
       },
       editor: ClassicEditor,
       editorConfig: {
@@ -127,18 +130,28 @@ export default {
     /**
      * 提交修改文章
      */
-    async submitArticle() {
+    submitArticle() {
       console.log(this.addArticleRuleForm)
-      const res = await this.$http.put(`/article/${this.addArticleRuleForm.id}`, this.addArticleRuleForm)
-      console.log(res)
-      if (res.data.success) {
-        console.log('更新成功')
-        this.$message.success(res.data.info)
-        this.$router.push('/article')
-      } else {
-        console.log('更新失败')
-        this.$message.error(res.data.info)
-      }
+      this.$refs.addArticleRuleForm.validate(async val => {
+        console.log(val)
+        if (val) {
+          const res = await this.$http.put(`/article/${this.addArticleRuleForm.id}`, this.addArticleRuleForm)
+          console.log(res)
+          if (res.data.success) {
+            console.log('更新成功')
+            this.$message.success(res.data.info)
+            this.$router.push('/article')
+          } else {
+            console.log('更新失败')
+            this.$message.error(res.data.info)
+          }
+        } else {
+          this.$message.error('请输入文章标题、正文！')
+        }
+      })
+    },
+    goBack() {
+      this.$router.push('/article')
     }
   },
   beforeDestroy() {
