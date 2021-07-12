@@ -79,13 +79,22 @@ async function deleteCategory(ctx) {
   }
 }
 
+/**
+ * 改：通过id，更改类名
+ * @param {*} ctx
+ */
 async function putEditCategory(ctx) {
   const data = ctx.request.body
+  console.log('data')
+  console.log(data)
   const categoryInfo = {
     id: data.id,
-    cagegoryName: data.cagegoryName
+    cagegoryName: data.categoryName
   }
+  console.log('controller:')
+  console.log(categoryInfo)
   const editCategoryInfo = await categoryModel.editCategory(categoryInfo)
+  console.log(editCategoryInfo)
   if (editCategoryInfo[0] === 1) {
     ctx.body = {
       success: true,
