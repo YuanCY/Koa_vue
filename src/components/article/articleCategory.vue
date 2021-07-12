@@ -30,7 +30,7 @@
               </el-table-column>
               <el-table-column label="操作" width="300" v-slot="props">
                 <el-button type="primary" icon="el-icon-edit" size="mini" @click="editCategory(props.row.id, props.row.cagegoryName)">编辑</el-button>
-                <el-button type="warning" icon="el-icon-s-operation" size="mini">配置</el-button>
+                <el-button type="warning" icon="el-icon-s-operation" size="mini" @click="openCategoryConfig(props.row.id)">配置</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
               </el-table-column>
             </el-table>
@@ -151,6 +151,10 @@ export default {
     editHandleClose() {
       console.log('close')
       this.editDialogVisible = false
+    },
+    openCategoryConfig(id) {
+      console.log(id)
+      this.visibleCategroy = true
     }
   }
 }
